@@ -22,6 +22,7 @@ namespace Final_WpfApp
     {
         public double firstNum;
         public double secondNum;
+        public string result;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,61 +38,99 @@ namespace Final_WpfApp
         {
             Button btn = (Button)sender;
             string add = btn.Content.ToString();
-            if(add == "+" || add == "-" || add == "/" || add == "*")
+            if (add == "+" || add == "-" || add == "/" || add == "*")
             {
                 if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
                 {
-                    Calculate1();
-                    StartCalculate();
-                    Result.Text += add;
+                    if (Result.Text.StartsWith("-"))
+                    {
+                        StartCalculate();
+                        ChechNegative();
+                        Result.Text += add;
+                    }
+                    else
+                    {
+                        Calculate1();
+                        StartCalculate();
+                        Result.Text += add;
+                    }
                 }
                 else
                 {
                     StartCalculate();
                     Result.Text += add;
                 }
-                //StartCalculate();
-                //Result.Text += add;
             }
             else if (add == "=")
             {
                 Calculate1();
             }
-            else if(add == "C")
+            else if (add == "C")
             {
                 Result.Text = null;
             }
             else if (add == "√x")
             {
-                if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
+                try
                 {
-                    Calculate1();
-                    Result.Text = Math.Sqrt(Convert.ToDouble(Result.Text)).ToString();
+                    if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
+                    {
+                        Calculate1();
+                        Result.Text = Math.Sqrt(Convert.ToDouble(Result.Text)).ToString();
+                    }
+                    else
+                    {
+                        StartCalculate();
+                        Result.Text = Math.Sqrt(firstNum).ToString();
+                    }
                 }
-                else
-                {
-                    StartCalculate();
-                    Result.Text = Math.Sqrt(firstNum).ToString();
-                }
+                catch
+                { Result.Text = null; }
             }
             else if (add == "x²")
             {
-                if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
+                try
                 {
-                    Calculate1();
-                    Result.Text = Math.Pow(Convert.ToDouble(Result.Text), 2).ToString();
+                    if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
+                    {
+                        Calculate1();
+                        Result.Text = Math.Pow(Convert.ToDouble(Result.Text), 2).ToString();
+                    }
+                    else
+                    {
+                        StartCalculate();
+                        Result.Text = Math.Pow(firstNum, 2).ToString();
+                    }
                 }
-                else
-                {
-                    StartCalculate();
-                    Result.Text = Math.Pow(firstNum, 2).ToString();
-                }
+                catch
+                { Result.Text = null; }
             }
             else if (add == "⇐")
             {
-                if (Result.Text.Length!=0)
+                if (Result.Text.Length != 0)
                 {
-                    Result.Text = Result.Text.Remove(Result.Text.Length-1);
+                    Result.Text = Result.Text.Remove(Result.Text.Length - 1);
+                }
+            }
+            else if (add == "%")
+            {
+                if (Result.Text == string.Empty)
+                {
+                    Result.Text = null;
+                }
+                else
+                {
+                    ChechNegative();
+                if (Result.Text.Contains("+") || Result.Text.Contains("-") || Result.Text.Contains("/") || Result.Text.Contains("*"))
+                    {
+                        int count = (firstNum.ToString()).Length;
+                        secondNum = firstNum / 100 * Convert.ToDouble((Result.Text.Remove(0, count + 1)));
+                        Calculate2();
+                    }
+                else
+                    {
+                        Result.Text = null;
+                    }
                 }
             }
             else
@@ -102,36 +141,86 @@ namespace Final_WpfApp
 
         private void StartCalculate()
         {
-            firstNum = Convert.ToDouble(Result.Text);
+            try
+            {
+                if (Result.Text == string.Empty)
+                {
+                    firstNum = 0;
+                }
+                else
+                {
+                    firstNum = Convert.ToDouble(Result.Text);
+                }
+            }
+            catch (Exception)
+            {
+                Result.Text = null;
+            }
         }
 
         private void Calculate1()
         {
-                if(Result.Text.Contains("+"))
+            try
+            {
+                if (Result.Text.Contains("+"))
                 {
-                    string calculate = Result.Text.Remove(0,Result.Text.IndexOf("+"));
+                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("+") + 1);
                     secondNum = Convert.ToDouble(calculate);
                     Result.Text = (firstNum + secondNum).ToString();
                 }
                 else if (Result.Text.Contains("-"))
                 {
-                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("-"));
+                    ChechNegative();
+                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("-") + 1);
                     secondNum = Convert.ToDouble(calculate);
                     Result.Text = (firstNum - secondNum).ToString();
 
                 }
                 else if (Result.Text.Contains("/"))
                 {
-                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("/"));
+                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("/") + 1);
                     secondNum = Convert.ToDouble(calculate);
                     Result.Text = (firstNum / secondNum).ToString();
                 }
                 else if (Result.Text.Contains("*"))
                 {
-                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("*"));
+                    string calculate = Result.Text.Remove(0, Result.Text.IndexOf("*") + 1);
                     secondNum = Convert.ToDouble(calculate);
                     Result.Text = (firstNum * secondNum).ToString();
                 }
+            }
+            catch 
+            {
+                Result.Text = null;
+            }
+            }
+
+        private void Calculate2()
+        {
+            if (Result.Text.Contains("+"))
+            {
+                Result.Text = (firstNum + secondNum).ToString();
+            }
+            else if (Result.Text.Contains("-"))
+            {
+                Result.Text = (firstNum - secondNum).ToString();
+
+            }
+            else if (Result.Text.Contains("/"))
+            {
+                Result.Text = (firstNum / secondNum).ToString();
+            }
+            else if (Result.Text.Contains("*"))
+            {
+                Result.Text = (firstNum * secondNum).ToString();
+            }
         }
+        private void ChechNegative()
+        {
+            if (Result.Text.StartsWith("-"))
+            {
+                Result.Text = Result.Text.Remove(0, Result.Text.IndexOf("-")+1);
+            }
         }
     }
+}

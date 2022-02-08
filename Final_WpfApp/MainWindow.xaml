@@ -17,27 +17,27 @@
             </TextBlock.Effect>
         </TextBlock>
         <UniformGrid x:Name="ButtonGrid" Grid.Row ="1" Rows="7" Columns="3">
-            <Button Content="%" Background="#FFB1A8A8" Padding="15"/>
-            <Button Content="C" Background="#FFB1A8A8"/>
-            <Button Content="⇐" Background="#FFB1A8A8"/>
-            <Button Content="√x" Background="#FFB1A8A8"/>
-            <Button Content="x²" Background="#FFB1A8A8"/>
-            <Button Content="*" Background="#FFB1A8A8"/>
-            <Button Content="+" Background="#FFB1A8A8"/>
-            <Button Content="-" Background="#FFB1A8A8"/>
-            <Button Content="/"/>
-            <Button Content="7"/>
+            <Button Content="%" Background="#FFB1A8A8" Padding="15" />
+            <Button Content="C" Background="#FFB1A8A8" />
+            <Button Content="⇐" Background="#FFB1A8A8" />
+            <Button Content="√x" Background="#FFB1A8A8" />
+            <Button Content="x²" Background="#FFB1A8A8" />
+            <Button Content="*" Background="#FFB1A8A8" />
+            <Button Content="+" Background="#FFB1A8A8" />
+            <Button Content="-" Background="#FFB1A8A8" />
+            <Button Content="/" Background="#FFB1A8A8" />
+            <Button Content="7" />
             <Button Content="8"/>
-            <Button Content="9"/>
-            <Button Content="4" Background="#FFB1A8A8"/>
-            <Button Content="5"/>
-            <Button Content="6"/>
-            <Button Content="1"/>
-            <Button Content="2" Background="#FFB1A8A8"/>
-            <Button Content="3"/>
-            <Button Content="0"/>
-            <Button Content=","/>
-            <Button Content="=" Background="#FFB1A8A8"/>
+            <Button Content="9" />
+            <Button Content="4" />
+            <Button Content="5" />
+            <Button Content="6" />
+            <Button Content="1" />
+            <Button Content="2" />
+            <Button Content="3" />
+            <Button Content="0" />
+            <Button Content="," />
+            <Button Content="=" Background="#FFE7DD9E"/>
         </UniformGrid>
     </Grid>
 </Window>
